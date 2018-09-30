@@ -1,4 +1,4 @@
-# Self-Driving Car Project 6. Extended Kalman Filter
+# Self-Driving Car Project 7.  Unscented Kalman Filter
 
 ## Overview
 
