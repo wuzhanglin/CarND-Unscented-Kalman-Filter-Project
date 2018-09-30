@@ -1,5 +1,6 @@
-# Unscented Kalman Filter Project Starter Code
-Self-Driving Car Engineer Nanodegree Program
+# Self-Driving Car Project 6. Extended Kalman Filter
+
+## Overview
 
 In this project utilize an Unscented Kalman Filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project rubric. 
 
@@ -41,6 +42,7 @@ OUTPUT: values provided by the c++ program to the simulator
 ---
 
 ## Other Important Dependencies
+
 * cmake >= 3.5
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
@@ -88,5 +90,6 @@ of CarND. If you are enrolled, see [the project page](https://classroom.udacity.
 for instructions and the project rubric.
 
 ## How to write a README
+
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
