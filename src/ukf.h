@@ -56,6 +56,13 @@ public:
     
 private:
     
+    MatrixXd GenerateSigmaPoints(VectorXd x, MatrixXd P, double lambda, int n_sig);
+    MatrixXd PredictSigmaPoints(MatrixXd Xsig, double delta_t, int n_x, int n_sig, double nu_am, double nu_yawdd);
+    
+    void NormalizeAngleOnComponent(VectorXd vector, int index);
+    
+private:
+    
     ///* initially set to false, set to true in first call of ProcessMeasurement
     bool is_initialized_;
     
@@ -106,6 +113,21 @@ private:
     
     ///* Sigma point spreading parameter
     double lambda_;
+    
+    ///* Sigma points dimension
+    int n_sig_;
+    
+    ///* Radar measurement noise covariance matrix
+    MatrixXd R_radar_;
+    
+    ///* Lidar measurement noise covariance matrix
+    MatrixXd R_lidar_;
+    
+    ///* The current NIS for radar
+    double NIS_radar_;
+    
+    ///* The current NIS for laser
+    double NIS_laser_;
 };
 
 #endif /* UKF_H */
