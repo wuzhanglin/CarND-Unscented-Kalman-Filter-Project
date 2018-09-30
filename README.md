@@ -10,11 +10,11 @@ This repository includes two files that can be used to set up and intall [uWebSo
 
 Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
 
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
-5. ./UnscentedKF
+1. `mkdir build`
+2. `cd build`
+3. `cmake ..`
+4. `make`
+5. `./UnscentedKF`
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
@@ -24,20 +24,20 @@ The program main.cpp has already been filled out, but feel free to modify it.
 
 Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
 
-
-INPUT: values provided by the simulator to the c++ program
-
+**INPUT**: Values provided by the simulator to the c++ program
+```
 ["sensor_measurement"] => the measurment that the simulator observed (either lidar or radar)
+```
 
-
-OUTPUT: values provided by the c++ program to the simulator
-
+**OUTPUT**: Values provided by the c++ program to the simulator
+```
 ["estimate_x"] <= kalman filter estimated position x
 ["estimate_y"] <= kalman filter estimated position y
 ["rmse_x"]
 ["rmse_y"]
 ["rmse_vx"]
 ["rmse_vy"]
+```
 
 ## Other Important Dependencies
 
@@ -86,3 +86,65 @@ Matlab scripts that can generate additional data.
 This information is only accessible by people who are already enrolled in Term 2
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/c3eb3583-17b2-4d83-abf7-d852ae1b9fff/concepts/f437b8b0-f2d8-43b0-9662-72ac4e4029c1)
 for instructions and the project rubric.
+
+## Run the Unscented Kalman Filter
+
+From the directory `./build`, run `./UnscentedKF`, and here is the output:
+```
+Listening to port 4567
+Connected!!!
+```
+
+Which means the our Unscented Kalman Filter program has connected to the simulator successfully.
+
+### The Start View of the Simulator
+
+![Start View of the Simulator](README-images/start.png)
+
+### Datasets
+
+The simulator provides two datasets. The difference between them are:
+
+- The direction the car (the object) is moving
+- The order the first measurement is sent to the UKF:
+- On dataset 1, the LIDAR measurement is sent first
+- On dataset 2, the RADAR measurement is sent first
+
+### UKF Accuracy
+
+For the new version of the project, there is now only one data set "obj_pose-laser-radar-synthetic-input.txt". px, py, vx, vy output coordinates must have an RMSE <= [.09, .10, .40, .30] when using the file: "obj_pose-laser-radar-synthetic-input.txt". The UKF accuracy was:
+
+- On dataset 1,  `RMSE = [0.0693, 0.0835, 0.3336, 0.2380]`
+- On dataset 2,  `RMSE = [0.0685, 0.0693, 0.5846, 0.2473]`
+
+### Test with Dataset 1
+
+Here is the final state of the simulator after running the Unscented Kalman Filter program againt dataset 1:
+
+![Simulator with Dataset 1](README-images/dataset1.png)
+
+Here is a snapshot on the log of the Unscented Kalman Filter program running against dataset 1:
+
+![UKF Log against Dataset 1](README-images/dataset1-log.png)
+
+### Test with Dataset 2
+
+Here is the final state of the simulator after running the Unscented Kalman Filter program againt dataset 2:
+
+![Simulator with dataset 2](README-images/dataset2.png)
+
+Here is a snapshot on the log of the Unscented Kalman Filter program running against dataset 2:
+
+![UKF Log against Dataset 2](README-images/dataset2-log.png)
+
+### The UKF Algorithm
+
+The UKF algorithm follows the general processing flow as taught in the preceding lessons. The implementation is in `src/ukf.cpp`. In the `ProcessMeasurement` method, the `Prediction` is executed for the prediction step, and methods `UpdateRadar` and `UpdateLidar` are executed for the update step depending on the measurement type.
+
+The UKF algorithm handles the first measurements appropriately. The first measurement is handled in `ProcessMeasurement` from line 113 to line 140.
+
+The UKF algorithm first predicts then updates. The prediction step is implemented in the `Prediction` method from line 171 to line 218.
+
+The UKF can handle radar and lidar measurements. Different type of measurements are handled in two places in UKF class:
+- For the first measurement from line 113 to line 140.
+- For the update step from line 149 to line 157.
